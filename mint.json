@@ -9,7 +9,10 @@
     "primary": "#6366F1",
     "light": "#95A1FE",
     "dark": "#6366F1",
-    "anchors": { "from": "#8386FC", "to": "#282A83" }
+    "anchors": { "from": "#8386FC", "to": "#282A83" },
+    "background": {
+      "dark": "#111827"
+    }
   },
   "topbarCtaButton": {
     "name": "Log in",
