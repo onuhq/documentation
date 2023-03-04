@@ -1,0 +1,38 @@
+---
+title: "onu.v1.http.get"
+description: "Makes an DELETE request to a given endpoint"
+---
+
+### Example[](#example "Direct link to Example")
+
+```yaml
+main:
+  name: Send a demo DELETE request
+  input:
+    name:
+      type: string
+  steps:
+    - name: Make a DELETE request
+      uses: onu.v1.http.delete
+      with:
+        url: https://demo.joinonu.com/api/greet
+      result: requestResult
+
+    - name: Return result
+      return: ${requestResult.body}
+```
+
+### Parameters
+
+<ResponseField name="url">
+  Required. The URL to send the GET request to
+</ResponseField>
+
+<ResponseField name="headers">
+  Optional. Any headers to add to this request. This is represented by key value
+  pairs
+</ResponseField>
+
+### Response
+
+Returns an object with `status_code`, `body` and `headers`

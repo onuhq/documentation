@@ -1,0 +1,49 @@
+---
+title: "Overview"
+---
+
+User input fields are defined under the `input` key in your yaml file. A quick
+example would be:
+
+```yaml
+main:
+  input:
+    user_id:
+      type: string
+      name: User ID
+      description: The id of the user being updated
+```
+
+### `type`
+
+**Required**. The expected type of the user's input. This will control which
+type of input component will be rendered. Onu currently supports `string`,
+`number`, and `select` types. We plan to add more types soon, so check back here
+for updated docs.
+
+### `name`
+
+The human-readable name to be displayed as the label of the input field. If not
+provided, Onu will fallback to using the id.
+
+### `description`
+
+An optional description to be displayed under the input field.
+
+### `options`
+
+This is only required for the `select` type. A list of ids to be used as the
+options of the select field. You can optionally add a `name` parameter to render
+a human-readable version of the id.
+
+```yaml
+district_name:
+  type: select
+  name: District Name
+  options:
+    - id: alameda
+    - id: sf
+      name: San Francisco
+    - id: sanmateo
+      name: San Mateo
+```
