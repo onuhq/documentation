@@ -1,0 +1,57 @@
+{
+  "name": "Onu",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#6366F1",
+    "light": "#95A1FE",
+    "dark": "#6366F1",
+    "anchors": { "from": "#8386FC", "to": "#282A83" }
+  },
+  "topbarCtaButton": {
+    "name": "Log in",
+    "url": "https://auth.joinonu.com/login"
+  },
+  "topbarLinks": [
+    {
+      "name": "Request access",
+      "url": "https://joinonu.com/"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/onuhq/onu-docs"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Welcome",
+      "pages": ["introduction"]
+    },
+    {
+      "group": "Defining Input",
+      "pages": ["defining-input"]
+    },
+    {
+      "group": "Defining Steps",
+      "pages": [
+        "defining-steps",
+        "defining-steps/get",
+        "defining-steps/post",
+        "defining-steps/put",
+        "defining-steps/delete",
+        "defining-steps/patch",
+        "defining-steps/postToChannel",
+        "defining-steps/return"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "website": "https://joinonu.com/"
+  }
+}
