@@ -8,7 +8,7 @@
   "colors": {
     "primary": "#6366F1",
     "light": "#95A1FE",
-    "dark": "#2D2E4A",
+    "dark": "#6366F1",
     "anchors": { "from": "#8386FC", "to": "#282A83" }
   },
   "topbarCtaButton": {
