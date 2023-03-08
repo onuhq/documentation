@@ -1,0 +1,53 @@
+---
+title: "Overview"
+description: "Onu allows you to turn the repetitive scripts and manual workflows 
+you run all the time into production-ready internal tools in minutes."
+---
+
+Onu gives you everything you need to quickly productionize your scripts by providing
+hosted, user-friendly auto-generated UIs and built-in auditing and integrations.
+
+<CardGroup>
+<Card
+  title="Getting Started"
+  icon="circle-play"
+  href="/introduction/getting-started"
+>
+ Learn how to set up your first task
+</Card>
+
+<Card
+  title="Defining Input"
+  icon="arrow-right-to-bracket"
+  href="/defining-input"
+>
+  User input fields are defined under the input key in your yaml file
+</Card>
+
+<Card
+  title="Defining Steps"
+  icon="arrow-down-short-wide"
+  href="/defining-steps"
+>
+  Onu tasks are executed as a series of steps.
+</Card>
+
+</CardGroup>
+
+## How does it work?
+
+After signing up, you will have a hosted platform for deploying new internal tools – we call them tasks. Each task
+on Onu is defined by a yaml config file. The file is split into 2 main parts – [inputs](/defining-input) and [steps](/defining-steps). The
+inputs are what the task needs to run.
+
+The steps are what define the task, and the output from one step can flow to the next. We provide templates for
+defining steps for HTTP requests and posting to a Slack channel. We are working on building more integrations so
+that you can build truly end-to-end workflows.
+
+Onu requires that all custom scripts are deployed to a self-hosted endpoint. Onu uses this endpoint to run the
+script. That endpoint is then included in the yaml config file as a step. This yaml config also generates the
+frontend UI for the task by parsing the inputs and steps – you don’t have to do any frontend work at all.
+
+This yaml is all you need to create a production-ready task. After a task is created, you get a clear
+visualization of each step in the task, real-time updates of your task run, and built-in auditing to keep
+track of previous task executions.
