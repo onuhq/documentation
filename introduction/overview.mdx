@@ -27,18 +27,21 @@ Just tell us your name and email and we’ll send you an email with sign in inst
 
 ## How does it work?
 
-After signing up, you will have a hosted platform for deploying new internal tools – we call them tasks. Each task
-on Onu is defined by a yaml config file. The file is split into 2 main parts – [inputs](/defining-input) and [steps](/defining-steps). The
-inputs are what the task needs to run.
+After signing up, you will have a hosted platform for deploying new internal tools – we call them tasks.
+Each task on Onu is defined by a YAML file.
+The file is split into 2 main parts – [inputs](/defining-input) and [steps](/defining-steps).
+The inputs define user submitted values that you can reference within your task.
 
-The steps are what define the task, and the output from one step can flow to the next. We provide templates for
-defining steps for HTTP requests and posting to a Slack channel. We are working on building more integrations so
-that you can build truly end-to-end workflows.
+The steps are what define the task, and the output from one step can flow to the next.
+We provide a library of step templates, predefined actions that you can use in your tasks,
+such as making an HTTP request or posting to Slack.
+You can browse the full list of supported step templates [here](/defining-steps).
+We are building more integrations so that you can compose truly end-to-end workflows.
 
-Onu requires that all custom scripts are deployed to a self-hosted endpoint. Onu uses this endpoint to run the
-script. That endpoint is then included in the yaml config file as a step. This yaml config also generates the
-frontend UI for the task by parsing the inputs and steps – you don’t have to do any frontend work at all.
+Currently, Onu requires you to deploy your custom scripts to a self-hosted endpoint.
+You can use one of the HTTP step templates to call your endpoint.
+This YAML file also generates the frontend UI for the task by parsing the inputs and steps.
 
-This yaml is all you need to create a production-ready task. After a task is created, you get a clear
-visualization of each step in the task, real-time updates of your task run, and built-in auditing to keep
-track of previous task executions.
+The YAML file is all you need to create a production-ready task.
+After a task is created, you get a clear visualization of each step in the task,
+real-time updates of your task run, and built-in auditing to keep track of previous task executions.
