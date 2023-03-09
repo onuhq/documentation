@@ -1,0 +1,47 @@
+---
+title: "Overview"
+description: "Onu allows you to turn the repetitive scripts and manual workflows 
+you run all the time into production-ready internal tools in minutes."
+---
+
+Onu gives you everything you need to quickly productionize your scripts by providing
+hosted, user-friendly auto-generated UIs and built-in auditing and integrations.
+
+<CardGroup>
+<Card
+  title="Getting Started"
+  icon="circle-play"
+  href="/introduction/getting-started"
+>
+ Learn how to set up your first task
+</Card>
+
+<Card title="Creating a Task" icon="square-terminal" href="/creating-a-task">
+  Full reference for creating an Onu task
+</Card>
+
+</CardGroup>
+
+To request an Onu account, reach out to us at founders@joinonu.com.
+Just tell us your name and email and we’ll send you an email with sign in instructions.
+
+## How does it work?
+
+After signing up, you will have a hosted platform for deploying new internal tools – we call them tasks.
+Each task on Onu is defined by a YAML file.
+The file is split into 2 main parts – [inputs](/defining-input) and [steps](/defining-steps).
+The inputs define user submitted values that you can reference within your task.
+
+The steps are what define the task, and the output from one step can flow to the next.
+We provide a library of step templates, predefined actions that you can use in your tasks,
+such as making an HTTP request or posting to Slack.
+You can browse the full list of supported step templates [here](/defining-steps).
+We are building more integrations so that you can compose truly end-to-end workflows.
+
+Currently, Onu requires you to deploy your custom scripts to a self-hosted endpoint.
+You can use one of the HTTP step templates to call your endpoint.
+This YAML file also generates the frontend UI for the task by parsing the inputs and steps.
+
+The YAML file is all you need to create a production-ready task.
+After a task is created, you get a clear visualization of each step in the task,
+real-time updates of your task run, and built-in auditing to keep track of previous task executions.

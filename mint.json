@@ -33,28 +33,30 @@
   ],
   "navigation": [
     {
-      "group": "Welcome",
-      "pages": [
-        "introduction"
-      ]
+      "group": "Introduction",
+      "pages": ["introduction/overview", "introduction/getting-started"]
     },
     {
-      "group": "Defining Input",
+      "group": "Creating a Task",
       "pages": [
-        "defining-input"
-      ]
-    },
-    {
-      "group": "Defining Steps",
-      "pages": [
-        "defining-steps",
-        "defining-steps/get",
-        "defining-steps/post",
-        "defining-steps/put",
-        "defining-steps/delete",
-        "defining-steps/patch",
-        "defining-steps/postToChannel",
-        "defining-steps/return"
+        "creating-a-task",
+        {
+          "group": "Defining Input",
+          "pages": ["defining-input"]
+        },
+        {
+          "group": "Defining Steps",
+          "pages": [
+            "defining-steps",
+            "defining-steps/get",
+            "defining-steps/post",
+            "defining-steps/put",
+            "defining-steps/delete",
+            "defining-steps/patch",
+            "defining-steps/postToChannel",
+            "defining-steps/return"
+          ]
+        }
       ]
     }
   ],

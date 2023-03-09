@@ -1,0 +1,106 @@
+---
+title: "Getting Started"
+description: "This guide will walk you through creating and running your first task on Onu."
+---
+
+To request an Onu account, reach out to us at founders@joinonu.com.
+Just tell us your name and email and we’ll send you an email with sign in instructions.
+
+We’ll use user onboarding as an example task.
+Let’s say your current process for onboarding a new user is
+SSH-ing into a production machine to run a script that updates the database
+and configures the account and then sending a Slack message with information about the new user.
+We’ll automate this task.
+
+## Creating a Task
+
+Once you’ve signed into your Onu account, you’ll be taken to your account's home page.
+This is where the list of tasks you can run will live. From here, click **Create Task** to get started.
+
+<Frame>
+  <img src="/images/empty-task-list-screen.png" />
+</Frame>
+
+### Writing the YAML file
+
+To create this task you’ll need to first write your YAML file and paste it into the create task editor.
+To learn all about how to write your own Onu YAML file [click here](/creating-a-task).
+
+For now, you can copy and paste the YAML snippet below. There are 2 steps:
+
+1. Send an HTTP POST request to the endpoint that runs the script to onboard your new user
+2. Return the response body to the execution page
+
+```yaml
+# Demo task for the Getting Started Guide
+main:
+  name: Getting Started Guide - Onboard a demo user
+  input:
+    email:
+      type: string
+      name: Email
+    account_type:
+      type: select
+      name: Account Type
+      options:
+        - id: basic
+        - id: pro
+  steps:
+    - name: Onboard a demo user
+      uses: onu.v1.http.post
+      with:
+        url: https://demo.joinonu.com/api/say-hello
+        body:
+          email: ${input.email}
+          account_type: ${input.account_type}
+      result: requestResult
+    - name: Return result
+      return: ${requestResult.body}
+```
+
+<Frame>
+  <img src="/images/create-task-with-yaml.png" />
+</Frame>
+
+## Running a Task
+
+Once you’ve created the task, you’ll be taken to its UI.
+The task page includes a few key elements:
+
+- The input form for the task
+- Task metadata
+- A list of the latest task executions.
+
+From here you can run the task by clicking on the **Run** button in the top right corner.
+
+<Frame>
+  <img src="/images/task-page.png" />
+</Frame>
+
+After filling in the inputs and clicking Run, you'll be taken to the task's execution page.
+Here you can see the task's output and whether the task succeeded or failed.
+If it failed, you can see which step was the failure point.
+
+<Frame>
+  <img src="/images/successful-execution-page.png" />
+</Frame>
+
+## Editing a Task
+
+To edit a task, you'll need to edit the YAML file.
+Go to the ellipses button next to the run button and you'll see a drop down menu with an **Edit** option.
+This will take you to the YAML file editor where you can update your task.
+
+<Frame>
+  <img src="/images/edit-dropdown.png" />
+</Frame>
+
+## (Optional) Integrations
+
+Onu comes with a built-in [Slack integration](/defining-steps/postToChannel).
+To enable it, go to **Settings**, click **Connect**,
+and you'll be redirected to a page asking you grant Onu permission to access your Slack workspace.
+
+<Frame>
+  <img src="/images/disconnected-slack-integration.png" />
+</Frame>
