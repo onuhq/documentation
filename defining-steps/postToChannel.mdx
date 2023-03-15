@@ -20,13 +20,13 @@ main:
   input:
     message:
       type: string
-    channelID:
+    channelName:
       type: string
   steps:
-    - name: Post to \#beta channel in slack
+    - name: "Post to #beta channel in slack"
       uses: onu.v1.slack.postToChannel
       with:
-        channelId: ${input.channelID}
+        channelName: ${input.channelName}
         markdown: >
           ${input.message + "\nSent via Onu"}
         botUsername: Onu Bot
@@ -36,15 +36,17 @@ main:
 
 ### Parameters
 
-<ResponseField name="channelId" required>
-  The ID of the Slack channel to post to
+<ResponseField name="channelName" required>
+  The name of the Slack channel to post to
 </ResponseField>
 
 <ResponseField name="markdown" required>
   The message to post
 </ResponseField>
 
-<ResponseField name="botUsername">Optional. The name of the bot</ResponseField>
+<ResponseField name="botUsername"=>Optional. The name of the bot</ResponseField>
+
+<ResponseField name="botImageUrl">Optional. The image URL to use for the Slack bot profile photo</ResponseField>
 
 ### Response
 

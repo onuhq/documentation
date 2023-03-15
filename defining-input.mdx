@@ -1,5 +1,5 @@
 ---
-title: "Overview"
+title: "Defining Input"
 ---
 
 User input fields are defined under the `input` key in your yaml file. A quick
@@ -14,36 +14,41 @@ main:
       description: The id of the user being updated
 ```
 
-### `type`
+<ResponseField name="type" required type="string">
+The expected type of the user's input. 
+This will control which type of input component will be rendered. 
+Onu currently supports `string`, `number`, `boolean` and `select` types. 
+We plan to add more types soon, so check back here for updated docs.
+</ResponseField>
 
-**Required**. The expected type of the user's input. This will control which
-type of input component will be rendered. Onu currently supports `string`,
-`number`, and `select` types. We plan to add more types soon, so check back here
-for updated docs.
+<ResponseField name="name" type="string">
+The human-readable name to be displayed as the label of the input field. 
+If not provided, Onu will fallback to using the id.
+</ResponseField>
 
-### `name`
+<ResponseField name="required" type="boolean">
+Whether or not this field is required. If not provided, Onu will default to `true`.
+</ResponseField>
 
-The human-readable name to be displayed as the label of the input field. If not
-provided, Onu will fallback to using the id.
+<ResponseField name="description" type="string">
+An optional description to be displayed alongside the input field.
+</ResponseField>
 
-### `description`
-
-An optional description to be displayed under the input field.
-
-### `options`
-
-This is only required for the `select` type. A list of ids to be used as the
-options of the select field. You can optionally add a `name` parameter to render
-a human-readable version of the id.
-
+<ResponseField name="options" type="Option[]">
+This is only required for the `select` type. 
+A list of ids to be used as the options of the select field. 
+You can optionally add a `name` parameter to render a human-readable version of the id. 
 ```yaml
 district_name:
   type: select
   name: District Name
   options:
-    - id: alameda
-    - id: sf
-      name: San Francisco
+    - alameda
+    - sf
     - id: sanmateo
       name: San Mateo
 ```
+</ResponseField>
+
+
+

@@ -34,16 +34,16 @@
   "navigation": [
     {
       "group": "Introduction",
-      "pages": ["introduction/overview", "introduction/getting-started"]
+      "pages": [
+        "introduction/overview",
+        "introduction/getting-started"
+      ]
     },
     {
       "group": "Creating a Task",
       "pages": [
         "creating-a-task",
-        {
-          "group": "Defining Input",
-          "pages": ["defining-input"]
-        },
+        "defining-input",
         {
           "group": "Defining Steps",
           "pages": [
@@ -56,7 +56,8 @@
             "defining-steps/postToChannel",
             "defining-steps/return"
           ]
-        }
+        },
+        "using-secrets"
       ]
     }
   ],

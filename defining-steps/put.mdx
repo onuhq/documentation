@@ -37,6 +37,22 @@ main:
   The body of the request. This is represented by key value pairs
 </ResponseField>
 
+<ResponseField name="auth" type="Auth Object">
+  <Expandable title="properties">
+    <ResponseField name="type" type="string" required>
+      The type of auth to use. Currently Onu supports `basic` auth
+    </ResponseField>
+
+    <ResponseField name="username" type="string">
+      If using basic auth, the username to submit with the request.
+    </ResponseField>
+
+    <ResponseField name="password" type="string">
+      If using basic auth, the password to submit with the request.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 ### Response
 
 Returns an object with `status_code`, `body` and `headers`
