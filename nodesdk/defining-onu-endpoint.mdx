@@ -1,0 +1,24 @@
+---
+title: "Configuring your Onu endpoint"
+---
+
+Onu accesses your tasks by hooking into your existing Express API.
+
+```typescript
+import onuClient from 'src/onu';
+
+app.use('/api/onuEntrypoint', async (request, response) => {
+  // You can add custom auth here
+  // ...
+  await onuClient.handleRequest(request, response);
+});
+```
+
+Over in your organization settings, configure your Onu endpoint and its required auth.
+<Frame>
+  <img src="/images/add-onu-endpoint.png" />
+</Frame>
+
+
+
+
