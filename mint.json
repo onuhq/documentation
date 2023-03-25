@@ -43,21 +43,42 @@
       "group": "Creating a Task",
       "pages": [
         "creating-a-task",
-        "defining-input",
         {
-          "group": "Defining Steps",
+          "group": "Node SDK",
           "pages": [
-            "defining-steps",
-            "defining-steps/get",
-            "defining-steps/post",
-            "defining-steps/put",
-            "defining-steps/delete",
-            "defining-steps/patch",
-            "defining-steps/postToChannel",
-            "defining-steps/return"
+            "nodesdk/overview",
+            "nodesdk/defining-onu-endpoint",
+            "nodesdk/defining-input",
+            {
+              "group": "Integrations",
+              "pages": [
+                "nodesdk/integrations/slack"
+              ]
+            }
           ]
         },
-        "using-secrets"
+        {
+          "group": "YAML",
+          "pages": [
+            "yaml/overview",
+            "yaml/getting-started",
+            "yaml/defining-input",
+            {
+              "group": "Defining Steps",
+              "pages": [
+                "yaml/defining-steps",
+                "yaml/defining-steps/get",
+                "yaml/defining-steps/post",
+                "yaml/defining-steps/put",
+                "yaml/defining-steps/delete",
+                "yaml/defining-steps/patch",
+                "yaml/defining-steps/postToChannel",
+                "yaml/defining-steps/return"
+              ]
+            },
+            "yaml/using-secrets"
+          ]
+        }
       ]
     }
   ],

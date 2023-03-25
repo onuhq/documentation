@@ -8,63 +8,129 @@ Just tell us your name and email and we’ll send you an email with sign in inst
 
 We’ll use user onboarding as an example task.
 Let’s say your current process for onboarding a new user is
-SSH-ing into a production machine to run a script that updates the database
-and configures the account and then sending a Slack message with information about the new user.
+SSH-ing into a production machine to run a script that updates the database,
+configures the account, and then sends a Slack message with information about the new user.
 We’ll automate this task.
+
+## Setting up the Onu SDK
+
+```bash
+yarn add @onuhq/node  # or npm i --save @onuhq/node
+```
+
+After installing the Onu SDK, create an `onu/` directory in your project and add an `index.js` file to it
+
+`onu/index.js`
+
+```typescript
+import { OnuClient } from '@onuhq/node';
+
+const onuClient = new OnuClient({
+  onuPath: __dirname,
+  apiKey: "<YOU_API_KEY>",  // <-- Add your API key here.
+});
+
+export default onuClient;
+```
+
+Onu accesses your tasks by hooking into your existing Express API. 
+Add a new endpoint to your project's API to act as Onu's entrypoint.
+
+```typescript
+import onuClient from 'src/onu';
+
+app.use('/api/onuEntrypoint', async (request, response) => {
+  // You can add custom auth here
+  // ...
+  await onuClient.handleRequest(request, response);
+});
+```
+
+Over in your organization settings, configure your Onu endpoint and its required auth.
+<Frame>
+  <img src="/images/add-onu-endpoint.png" />
+</Frame>
 
 ## Creating a Task
 
-Once you’ve signed into your Onu account, you’ll be taken to your account's home page.
-This is where the list of tasks you can run will live. From here, click **Create Task** to get started.
+Each task is defined as its own file within the `onu/` directory.
+To learn all about how to write your Task configuration file, [click here](/creating-a-task).
 
-<Frame>
-  <img src="/images/empty-task-list-screen.png" />
-</Frame>
+For now, you can copy and paste the snippet below. There are 3 steps:
 
-### Writing the YAML file
-
-To create this task you’ll need to first write your YAML file and paste it into the create task editor.
-To learn all about how to write your own Onu YAML file [click here](/creating-a-task).
-
-For now, you can copy and paste the YAML snippet below. There are 2 steps:
-
-1. Send an HTTP POST request to the endpoint that runs the script to onboard your new user
+1. Onboard a demo user by making a request to Onu's demo API
+2. Post to Slack notifying that a new user was added
 2. Return the response body to the execution page
 
-```yaml
-# Demo task for the Getting Started Guide
-main:
-  name: Getting Started Guide - Onboard a demo user
-  input:
-    email:
-      type: string
-      name: Email
-    account_type:
-      type: select
-      name: Account Type
-      options:
-        - id: basic
-        - id: pro
-  steps:
-    - name: Onboard a demo user
-      uses: onu.v1.http.post
-      with:
-        url: https://demo.joinonu.com/api/say-hello
-        body:
-          email: ${input.email}
-          account_type: ${input.account_type}
-      result: requestResult
-    - name: Return result
-      return: ${requestResult.body}
+`onu/onboardUser.js`
+```typescript
+// Demo task for the Getting Started Guide
+import onu from "@onuhq/node";
+
+const task = new onu.Task({
+  name: "Getting Started Guide - Onboard a demo user",
+  slug: 'onboard-user',
+  input: {
+    email: {
+      type: "string",
+      name: "Email",
+    },
+    accountType: {
+      type: "select",
+      name: "Account Type",
+      options: ["basic", "pro"],
+    },
+  },
+  run: async (input, context) => {
+    const { email, accountType } = input;
+
+    // You can import and use your project's existing code & business logic.
+    // For the purposes of this demo, we'll just make a call to Onu's demo API
+    const response = await fetch("https://demo.joinonu.com/api/onboard", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, accountType }),
+    });
+
+    const user = await response.json();
+
+    context.slack.postMessage({
+      message: `Added a new user ${user.id} via the onboarding flow`
+      channel: '#customers'
+    })
+
+    return user;
+  }
+});
+
+export default task;
 ```
 
-<Frame>
-  <img src="/images/create-task-with-yaml.png" />
-</Frame>
+## Deploying your tasks
+
+Because Onu attaches to your existing API, you can deploy your API as usual to deploy your Onu tasks.
+
+
+## Syncing your tasks
+
+You'll need to sync your tasks to Onu before you can interact with them in the Onu dashboard.
+
+There are two ways to sync task information from your server to Onu
+
+1) You can hit the `Sync` button in your organization settings to force a sync.
+2) You can call the `/v1/tasks/sync` endpoint on Onu's API to trigger a sync. 
+
+```bash
+curl -XPOST -H 'Authorization: Bearer <YOUR_API_KEY>' 'https://api.joinonu.com/v1/tasks/sync'
+```
+
+To fully automate syncing tasks to Onu, you should add this sync call to your API's CI/CD workflow.
 
 ## Running a Task
 
-Once you’ve created the task, you’ll be taken to its UI.
+Once you’ve created and synced your task, you can access its UI on the Onu dashboard.
 The task page includes a few key elements:
 
 - The input form for the task
@@ -87,19 +153,13 @@ If it failed, you can see which step was the failure point.
 
 ## Editing a Task
 
-To edit a task, you'll need to edit the YAML file.
-Go to the ellipses button next to the run button and you'll see a drop down menu with an **Edit** option.
-This will take you to the YAML file editor where you can update your task.
-
-<Frame>
-  <img src="/images/edit-dropdown.png" />
-</Frame>
+To edit a task, simply edit the task's configuration file, deploy, and re-sync your tasks to Onu.
 
 ## (Optional) Integrations
 
-Onu comes with a built-in [Slack integration](/defining-steps/postToChannel).
-To enable it, go to **Settings**, click **Connect**,
-and you'll be redirected to a page asking you grant Onu permission to access your Slack workspace.
+Onu comes with a built-in [Slack integration](/nodesdk/integrations/slack).
+To enable it, navigate to the **Integrations** tab on the **Settings** screen, find the Slack integration and click **Connect**.
+You'll be redirected to a page asking you grant Onu permission to access your Slack workspace.
 
 <Frame>
   <img src="/images/disconnected-slack-integration.png" />

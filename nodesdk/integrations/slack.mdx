@@ -1,0 +1,34 @@
+---
+title: "Slack"
+---
+
+<Note>
+**AUTH REQUIRED**
+
+You must connect to Slack on the
+[Integrations](https://app.joinonu.com/settings#integrations) page before using
+this integration.
+
+</Note>
+
+After enabling the Slack integration, you'll have access to Slack methods within your Task's run context
+
+```typescript
+import { Task } from '@onuhq/node';
+
+const task = new Task({
+  name: "Demo Task",
+  run: async (input, context) => {
+    context.slack.postMessage({
+      message: 'This is my message!',
+      channel: '#general',
+    })
+  }
+});
+```
+
+
+## Post a message
+```typescript
+context.slack.postMessage({message: string, channel: string})
+```

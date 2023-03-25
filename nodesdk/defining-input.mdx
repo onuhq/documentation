@@ -1,0 +1,76 @@
+---
+title: "Defining Input"
+---
+
+User input fields are defined under the `input` key in your `Task` config. A quick
+example would be:
+
+```typescript
+const task = new Task({
+  name: "Create new organization",
+  description: "Creates a new organization and sends a slack message",
+  slug: 'create-org',
+  input: {
+    orgName: {
+      type: "string",
+      name: "Organization name",
+    },
+    size: {
+      type: "number",
+      name: "Size",
+      required: false,
+      description: "The number of seats in the organization",
+    },
+  },
+  run: async (input, context) => {
+    const { orgName, size } = input;
+    console.log('Do some stuff')
+  }
+});
+```
+
+<ResponseField name="type" required type="string">
+The expected type of the user's input. 
+This controls the input component that will be displayed on the frontend. 
+Onu currently supports `string`, `number`, `boolean` and `select` types. 
+We plan to add more types soon, so check back here for updated docs.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+The human-readable name to be displayed as the label of the input field. 
+If not provided, Onu will fallback to using the id.
+</ResponseField>
+
+<ResponseField name="required" type="boolean">
+Whether or not this field is required. If not provided, Onu will default to `true`.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+An optional description to be displayed alongside the input field.
+</ResponseField>
+
+<ResponseField name="options" type="Option[]">
+This is only required for the `select` type. 
+An array of strings to be used as the options of the select field. 
+You can optionally supply an object with an `id` and `name` parameter to render a human-readable version of the string. 
+```typescript
+input: {
+    districtName: {
+      type: "select",
+      name: "District Name",
+      options: [
+        "alameda",
+        "sf",
+        { 
+          id: "sanmateo",
+          name: "San Mateo"
+        }
+      ],
+    },
+  },
+// ...
+```
+</ResponseField>
+
+
+

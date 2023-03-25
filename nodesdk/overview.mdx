@@ -1,0 +1,41 @@
+---
+title: "Overview"
+description: "This section is a full reference for how to create a task using the Node/Express sdk."
+---
+
+If you are looking for a more guided introduction, checkout the [getting started guide](/introduction/getting-started).
+
+# Install
+```bash
+yarn add @onuhq/node  # or npm i --save @onuhq/node
+```
+
+# Setup
+In your project, create a new directory called `onu/`. This directory will contain all of your Onu tasks.
+```
+.
+└── Project root/
+    └── src/
+        ├── services/
+        ├── routes/
+        └── onu/
+            ├── index.ts
+            ├── myCustomTask.ts
+            └── myOtherCustomTask.ts
+```
+
+
+`onu/index.ts`
+
+```typescript
+import { OnuClient } from '@onuhq/node';
+
+
+const onuClient = new OnuClient({
+  onuPath: __dirname,
+  apiKey: <YOUR_API_KEY>,
+});
+
+
+export default onuClient;
+```
