@@ -15,11 +15,12 @@ After enabling the Slack integration, you'll have access to Slack methods within
 
 ```typescript
 import { Task } from '@onuhq/node';
+import { slack } from '@onuhq/integrations';
 
 const task = new Task({
   name: "Demo Task",
   run: async (input, context) => {
-    context.slack.postMessage({
+    await slack.postMessage({
       message: 'This is my message!',
       channel: '#general',
     })
@@ -30,5 +31,5 @@ const task = new Task({
 
 ## Post a message
 ```typescript
-context.slack.postMessage({message: string, channel: string})
+slack.postMessage({message: string, channel: string})
 ```
