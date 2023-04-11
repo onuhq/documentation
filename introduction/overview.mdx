@@ -16,7 +16,7 @@ hosted, user-friendly auto-generated UIs and built-in auditing and integrations.
  Learn how to set up your first task
 </Card>
 
-<Card title="Creating a Task" icon="square-terminal" href="/creating-a-task">
+<Card title="Creating a Task" icon="square-terminal" href="/nodesdk/overview">
   Full reference for creating an Onu task
 </Card>
 
@@ -32,7 +32,8 @@ Each task on Onu is created with a Task configuration file written with one of O
 We currently support Node/Express. We're rolling out Python SDKs for Flask & Django soon.
 
 ```typescript
-import { Task } from 'onuhq/node'
+import { Task } from '@onuhq/node'
+import { slack } from '@onuhq/integrations'
 import organizationService from '../businessLogic/organizationService'
 
 const task = new Task({
@@ -56,7 +57,7 @@ const task = new Task({
     // Define your custom logic here
     console.log('Do some stuff');
     const org = organizationService.createOrg(orgName);
-    context.slack.postMessage({
+    await slack.postMessage({
       message: 'Created org ${orgName}`,
       channel: '#customers'
     })

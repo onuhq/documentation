@@ -14,47 +14,19 @@ We’ll automate this task.
 
 ## Setting up the Onu SDK
 
+You can use the Onu CLI to create a new Onu project (or add Onu to an existing Node.js project)
+
 ```bash
-yarn add @onuhq/node  # or npm i --save @onuhq/node
+npx onu@latest init --language typescript  #  or --language javascript
 ```
 
-After installing the Onu SDK, create an `onu/` directory in your project and add an `index.js` file to it
-
-`onu/index.js`
-
-```typescript
-import { OnuClient } from '@onuhq/node';
-
-const onuClient = new OnuClient({
-  onuPath: __dirname,
-  apiKey: "<YOU_API_KEY>",  // <-- Add your API key here.
-});
-
-export default onuClient;
-```
-
-Onu accesses your tasks by hooking into your existing Express API. 
-Add a new endpoint to your project's API to act as Onu's entrypoint.
-
-```typescript
-import onuClient from 'src/onu';
-
-app.use('/api/onuEntrypoint', async (request, response) => {
-  // You can add custom auth here
-  // ...
-  await onuClient.handleRequest(request, response);
-});
-```
-
-Over in your organization settings, configure your Onu endpoint and its required auth.
-<Frame>
-  <img src="/images/add-onu-endpoint.png" />
-</Frame>
+The CLI will create an `onu/` directory for you. This is where all of you Onu tasks will live.
 
 ## Creating a Task
 
 Each task is defined as its own file within the `onu/` directory.
-To learn all about how to write your Task configuration file, [click here](/creating-a-task).
+Every task file in this directory should export a `Task` as the default export.
+To learn all about how to write your Task configuration file in the [Node SDK overview](/nodesdk/overview).
 
 For now, you can copy and paste the snippet below. There are 3 steps:
 
@@ -62,14 +34,15 @@ For now, you can copy and paste the snippet below. There are 3 steps:
 2. Post to Slack notifying that a new user was added
 2. Return the response body to the execution page
 
-`onu/onboardUser.js`
+`onu/onboardUser.ts`
 ```typescript
 // Demo task for the Getting Started Guide
 import onu from "@onuhq/node";
+import fetch from 'node-fetch';
 
 const task = new onu.Task({
   name: "Getting Started Guide - Onboard a demo user",
-  slug: 'onboard-user',
+  slug: 'create-account',
   input: {
     email: {
       type: "string",
@@ -96,11 +69,6 @@ const task = new onu.Task({
 
     const user = await response.json();
 
-    context.slack.postMessage({
-      message: `Added a new user ${user.id} via the onboarding flow`
-      channel: '#customers'
-    })
-
     return user;
   }
 });
@@ -110,27 +78,20 @@ export default task;
 
 ## Deploying your tasks
 
-Because Onu attaches to your existing API, you can deploy your API as usual to deploy your Onu tasks.
-
-
-## Syncing your tasks
-
-You'll need to sync your tasks to Onu before you can interact with them in the Onu dashboard.
-
-There are two ways to sync task information from your server to Onu
-
-1) You can hit the `Sync` button in your organization settings to force a sync.
-2) You can call the `/v1/tasks/sync` endpoint on Onu's API to trigger a sync. 
+To deploy your tasks, you can use the `onu deploy` command.
 
 ```bash
-curl -XPOST -H 'Authorization: Bearer <YOUR_API_KEY>' 'https://api.joinonu.com/v1/tasks/sync'
+npx onu@latest deploy
 ```
 
-To fully automate syncing tasks to Onu, you should add this sync call to your API's CI/CD workflow.
+
+You can also self host your Onu instance. 
+Documentation for self-hosting your Onu tasks is coming soon. 
+In the meantime, you can reach out to us at founders@joinonu.com for instructions on how to self-host your Onu tasks.
 
 ## Running a Task
 
-Once you’ve created and synced your task, you can access its UI on the Onu dashboard.
+Once you’ve created and deployed your task, you can access its UI on the Onu dashboard.
 The task page includes a few key elements:
 
 - The input form for the task
@@ -145,7 +106,6 @@ From here you can run the task by clicking on the **Run** button in the top righ
 
 After filling in the inputs and clicking Run, you'll be taken to the task's execution page.
 Here you can see the task's output and whether the task succeeded or failed.
-If it failed, you can see which step was the failure point.
 
 <Frame>
   <img src="/images/successful-execution-page.png" />
@@ -153,7 +113,7 @@ If it failed, you can see which step was the failure point.
 
 ## Editing a Task
 
-To edit a task, simply edit the task's configuration file, deploy, and re-sync your tasks to Onu.
+To edit a task, simply edit the task's configuration file and re-deploy your tasks to Onu.
 
 ## (Optional) Integrations
 
