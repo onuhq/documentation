@@ -1,0 +1,60 @@
+---
+title: "Deploying to Google Cloud Functions"
+---
+
+Onu supports hosting your tasks on Google Cloud Functions. 
+
+To get started, add an `index.ts` file (or `index.js`) to your `onu/` directory and add the following code snippet:
+
+```typescript
+import {OnuClient} from '@onuhq/node';
+
+const client = new OnuClient({
+  onuPath: 'path/to/your/onu/directory',
+  apiKey: process.env.YOUR_API_KEY
+  authenticator: (req: Request) => {
+    // Optional. Any custom authentication logic that should occur 
+    // to ensure that the request is coming from a trusted source.
+    // For example, you can validate the `onu-signature` header here.
+    return true
+  }
+})
+
+module.exports.handler = async (req: Request, res: Response) => await client.handleRequest(req, res)
+```
+
+
+From here, your tasks are ready to deploy on Google Cloud Functions!
+
+## Handler path
+For Onu to work with Google Cloud Functions, you'll need to either: 
+
+* Update the `main` path in your `package.json` to be the path to your Onu handler file
+* OR: add the handler as an export in the existing `main` file specified in your `package.json`
+
+```json
+{
+  "name": "yourpackage",
+  "version": "0.1.0",
+  "main": "src/onu/index.js",
+  ...
+}
+```
+
+## Deploy
+
+```bash
+gcloud functions deploy yourFunctionName --trigger-http --region=us-central1 --runtime=nodejs18 --allow-unauthenticated --source .
+```
+
+
+
+
+That's all! You can make sure your function is working by calling `<your_function_url>/healthcheck`.
+
+
+Next, you can follow the instructions in the [Configuring your Onu endpoint](/nodesdk/selfhosting/defining-onu-endpoint) section to configure your endpoint in Onu, as well as add any required auth.
+
+
+Need help? Reach out to us on [Discord](https://discord.gg/FJr6Yqk79T), or via email at founders@joinonu.com
+
