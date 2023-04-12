@@ -1,0 +1,58 @@
+---
+title: "Deploying to AWS Lambda"
+---
+
+Onu supports hosting your tasks on AWS Lambda. 
+You'll need to use a third party library, [serverless-http](https://www.npmjs.com/package/serverless-http), to wrap the handler provided by Onu.
+
+To get started, add an `index.ts` file (or `index.js`) to your `onu/` directory and add the following code snippet:
+
+```typescript
+import {OnuClient} from '@onuhq/node';
+import serverless from 'serverless-http'
+
+const client = new OnuClient({
+  onuPath: 'path/to/your/onu/directory',
+  apiKey: process.env.YOUR_API_KEY
+  authenticator: (req: Request) => {
+    // Optional. Any custom authentication logic that should occur 
+    // to ensure that the request is coming from a trusted source.
+    // For example, you can validate the `onu-signature` header here.
+    return true
+  }
+})
+
+module.exports.handler = serverless(client.app)
+```
+
+
+<Note>
+**NOTE**
+
+The `serverless(client.app)` call may produce a warning in some Typescript projects.
+The serverless-http library supports the Onu handler, so you can safely ignore this error.
+We're working on fixing the underlying type issue to resolve this error in the future.
+
+</Note>
+
+From here, your app is ready to deploy on AWS Lambda!
+If you deploy using a `.zip` archive, you can zip up the directory, excluding any sensitive files, and deploy to AWS Lambda.
+
+## Handler path
+For Onu to work with AWS Lambda, you'll need to set the handler path to `/path/to/onu/index.handler`
+
+You can update this in the `Code` section of your Function overview page
+
+<Frame>
+  <img src="/images/aws-lambda-settings.png" />
+</Frame>
+
+
+That's all! You can make sure your function is working by calling `<your_function_url>/healthcheck`.
+
+
+Next, you can follow the instructions in the [Configuring your Onu endpoint](/nodesdk/selfhosting/defining-onu-endpoint) section to configure your endpoint in Onu, as well as add any required auth.
+
+
+Need help? Reach out to us on [Discord](https://discord.gg/FJr6Yqk79T), or via email at founders@joinonu.com
+

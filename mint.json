@@ -57,6 +57,7 @@
             {
               "group": "Self Hosting",
               "pages": [
+                "nodesdk/selfhosting/aws-lambda",
                 "nodesdk/selfhosting/defining-onu-endpoint"
               ]
             }
