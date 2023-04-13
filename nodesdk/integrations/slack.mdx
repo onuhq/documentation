@@ -22,7 +22,7 @@ const task = new Task({
   run: async (input, context) => {
     await slack.postMessage({
       message: 'This is my message!',
-      channel: '#general',
+      channelName: '#general',
     })
   }
 });
@@ -31,5 +31,25 @@ const task = new Task({
 
 ## Post a message
 ```typescript
-slack.postMessage({message: string, channel: string})
+slack.postMessage({message: string, channelName?: string, channelId?: string, botUsername?: string, botImageURL?: string})
 ```
+
+<ResponseField name="message" required type="string">
+The markdown formatted message to post to Slack
+</ResponseField>
+
+<ResponseField name="channelName" type="string">
+The name of the channel to post to.
+</ResponseField>
+
+<ResponseField name="channelName" type="string">
+The ID of the channel to post to. This can be provided instead of the `channelName`.
+</ResponseField>
+
+<ResponseField name="botUsername" type="string">
+The username of the bot that will post to the channel. Defaults to `Onu Bot`
+</ResponseField>
+
+<ResponseField name="botUsername" type="string">
+The image URL to use for the profile photo of the Slack bot. Defaults to Onu's logo.
+</ResponseField>
