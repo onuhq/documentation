@@ -48,6 +48,7 @@
             "nodesdk/overview",
             
             "nodesdk/defining-input",
+            "nodesdk/file-uploads",
             {
               "group": "Integrations",
               "pages": [

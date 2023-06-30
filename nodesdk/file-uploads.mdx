@@ -1,0 +1,65 @@
+---
+title: "File Uploads"
+---
+
+Onu supports uploading CSV files.
+
+```typescript
+import { Task } from "@onuhq/node";
+import csv from "csv-parser"
+import axios from "axios"
+
+const task = new Task({
+  name: "Approve organizations",
+  description: "Approves organizations in the given csv",
+  slug: 'approve-orgs',
+  input: {
+    uploadFile: {
+      type: "csv",
+      name: "Upload file",
+    },
+  },
+  run: async (input, context) => {
+    const response = await axios.get(input.uploadFile.url);
+
+    const text = resp.data
+
+    // parse the csv
+    let results: any[] = []
+
+    // Parse the CSV data
+    csv({ headers: true })
+      .on('data', (data: any) => results.push(data))
+      .on('end', () => {
+        console.log(results);
+        // Process the parsed CSV data here
+      })
+      .write(text)
+
+    return results
+  }
+
+});
+```
+
+When uploading a file, your task will be called with a `File` object that contains information about the file that was uploaded, including a presigned URL to allow you to download the csv data.
+This presigned URL will expire after 1 hour.
+
+## The `File` object:  
+
+
+<ResponseField name="name" type="string">
+The name of the file that was uploaded
+</ResponseField>
+
+<ResponseField name="type" type="string">
+The type of file. Onu currently supports `text/csv`.
+</ResponseField>
+
+<ResponseField name="url" type="string">
+A presigned URL allowing download access for the file contents. This URL expires after 1 hour.
+</ResponseField>
+
+
+
+
