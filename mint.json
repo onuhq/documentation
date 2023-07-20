@@ -20,8 +20,8 @@
   },
   "topbarLinks": [
     {
-      "name": "Request access",
-      "url": "https://joinonu.com/"
+      "name": "Sign up",
+      "url": "https://auth.joinonu.com/signup"
     }
   ],
   "anchors": [
